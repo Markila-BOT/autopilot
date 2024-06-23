@@ -5,16 +5,19 @@ import supabase from "../supabase/client";
 import { toast } from "@/components/ui/use-toast";
 
 export type Book = {
-  id: number;
   title: string;
   author: string;
   published_date: string;
   genre: string;
 };
 
+export type BookWithId = Book & {
+  id: number;
+};
+
 type UseBooksState = {
-  books: Book[];
-  setBooks: (newBooks: Book[]) => void;
+  books: BookWithId[];
+  setBooks: (newBooks: BookWithId[]) => void;
   addBook: (newBook: Book) => void;
   deleteBook: (bookId: number) => void;
   editBook: (bookId: number, updatedBook: Book) => void;
@@ -22,7 +25,7 @@ type UseBooksState = {
 
 const useBooksStore = create<UseBooksState>()((set) => ({
   books: [],
-  setBooks: (newBooks) => {
+  setBooks: (newBooks: BookWithId[]) => {
     set({ books: newBooks });
   },
   addBook: async (newBook) => {
